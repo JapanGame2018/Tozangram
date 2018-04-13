@@ -7,6 +7,7 @@ public class PlayerControl : MonoBehaviour
 
     Rigidbody2D rb;
     Transform tf;
+    SpriteRenderer sr;
     [SerializeField] ContactFilter2D filter2d;
     [SerializeField] private float jumpValue;   // ジャンプ力
     [SerializeField] private float speed;       // 移動速度
@@ -17,6 +18,7 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         // コンポーネントをキャッシュ
+        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         tf = transform;
     }
@@ -79,5 +81,13 @@ public class PlayerControl : MonoBehaviour
             moveValue *= sprintRate;
         }
         rb.velocity = new Vector2(value * moveValue, rb.velocity.y);
+        if(value > 0)
+        {
+            sr.flipX = false;
+        }
+        else if(value < 0)
+        {
+            sr.flipX = true;
+        }
     }
 }
