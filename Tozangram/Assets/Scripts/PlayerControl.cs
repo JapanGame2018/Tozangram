@@ -8,6 +8,7 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rb;
     Transform tf;
     SpriteRenderer sr;
+    GameManager gm;
     [SerializeField] ContactFilter2D filter2d;
     [SerializeField] private float jumpValue;   // ジャンプ力
     [SerializeField] private float speed;       // 移動速度
@@ -21,12 +22,16 @@ public class PlayerControl : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         tf = transform;
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
     {
         // キー入力を取得
-        GetKey();
+        if (gm.state == STATE.GAME)
+        {
+            GetKey();
+        }
     }
 
     /// <summary>
@@ -109,7 +114,7 @@ public class PlayerControl : MonoBehaviour
         {
             sr.flipX = false;
         }
-        else if(value < 0)
+        else if (value < 0)
         {
             sr.flipX = true;
         }
