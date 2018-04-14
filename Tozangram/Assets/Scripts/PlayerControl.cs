@@ -40,6 +40,12 @@ public class PlayerControl : MonoBehaviour
             Jump();
         }
 
+        // スペースを離した時に上昇中なら下降
+        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0)
+        {
+            Fall();
+        }
+
         // 左右の矢印キーが押されている間、移動
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
         {
@@ -62,11 +68,23 @@ public class PlayerControl : MonoBehaviour
     /// </summary>
     private void Jump()
     {
+        // 地面と接触しているかどうか
         isTouched = rb.IsTouching(filter2d);
+
+        // 地面と接触しているならジャンプ
         if (isTouched)
         {
             rb.velocity = tf.up * jumpValue;
         }
+    }
+
+    /// <summary>
+    /// スペースが離されたタイミングで降下する関数
+    /// </summary>
+    private void Fall()
+    {
+        // y成分を0に
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
     }
 
     /// <summary>
@@ -76,12 +94,18 @@ public class PlayerControl : MonoBehaviour
     private void Move(float value)
     {
         float moveValue = speed;
+
+        // スプリント中なら速度を上げる
         if (sprint)
         {
             moveValue *= sprintRate;
         }
+
+        // 左右に入力
         rb.velocity = new Vector2(value * moveValue, rb.velocity.y);
-        if(value > 0)
+
+        // 移動方向にキャラクターを向ける
+        if (value > 0)
         {
             sr.flipX = false;
         }
