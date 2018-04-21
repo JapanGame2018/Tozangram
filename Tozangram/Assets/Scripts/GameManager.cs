@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>季節の一覧</summary>
 public enum SEASON
 {
     NONE, SPRING, SUMMER, AUTUMN, WINTER
@@ -14,21 +15,19 @@ public enum STATE
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject[] flameList;
+
     public SEASON season = SEASON.NONE;
     public STATE state = STATE.GAME;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         GetKey();
     }
 
+    /// <summary>
+    /// 入力を取得
+    /// </summary>
     private void GetKey()
     {
         if(state == STATE.GAME && (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)))
@@ -41,6 +40,8 @@ public class GameManager : MonoBehaviour
     {
         state = STATE.TRANS;
         Time.timeScale = 0f;
+        flameList[0].SetActive(true);
+
         int time = 60;
 
         for(int i = time;i > 0;i--)
@@ -53,6 +54,8 @@ public class GameManager : MonoBehaviour
                 {
                     season = SEASON.WINTER;
                 }
+
+                SelectFlame(season);
             }
 
             if (Input.GetKeyDown(KeyCode.RightControl))
@@ -63,12 +66,28 @@ public class GameManager : MonoBehaviour
                 {
                     season = SEASON.NONE;
                 }
+
+                SelectFlame(season);
             }
             yield return null;
         }
 
         state = STATE.GAME;
         Time.timeScale = 1f;
+        flameList[0].SetActive(false);
         yield break;
+    }
+
+    /// <summary>
+    /// 選択したフレームをハイライトする
+    /// </summary>
+    /// <param name="select">選択中のフレーム</param>
+    private void SelectFlame(SEASON select)
+    {
+        for (int i = 1; i < flameList.Length; i++)
+        {
+            flameList[i].SetActive(false);
+        }
+        flameList[(int)select].SetActive(true);
     }
 }
