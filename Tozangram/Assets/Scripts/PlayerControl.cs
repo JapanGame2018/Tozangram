@@ -8,12 +8,14 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rb;
     Transform tf;
     SpriteRenderer sr;
+    GameManager gm;
     [SerializeField] ContactFilter2D filter2d;
     [SerializeField] private float jumpValue;   // ジャンプ力
     [SerializeField] private float speed;       // 移動速度
     [SerializeField] private float sprintRate;  // ダッシュ時の倍率
     private bool sprint;        // ダッシュ状態かどうか
     private bool isTouched;     // 地面と接触しているか
+    private bool canDouble;     // 2段ジャンプ可能か
 
     void Start()
     {
@@ -21,12 +23,16 @@ public class PlayerControl : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         tf = transform;
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
     {
         // キー入力を取得
-        GetKey();
+        if (gm.state == STATE.GAME)
+        {
+            GetKey();
+        }
     }
 
     /// <summary>
@@ -71,10 +77,17 @@ public class PlayerControl : MonoBehaviour
         // 地面と接触しているかどうか
         isTouched = rb.IsTouching(filter2d);
 
-        // 地面と接触しているならジャンプ
-        if (isTouched)
+        // 地面と接触しているor２段ジャンプ可能ならジャンプ
+        if (canDouble || isTouched)
         {
             rb.velocity = tf.up * jumpValue;
+            canDouble = false;
+        }
+
+        // 秋フレームで一回目のジャンプの時に2段ジャンプ可能にする
+        if (gm.season == SEASON.AUTUMN && isTouched)
+        {
+            canDouble = true;
         }
     }
 
@@ -109,7 +122,7 @@ public class PlayerControl : MonoBehaviour
         {
             sr.flipX = false;
         }
-        else if(value < 0)
+        else if (value < 0)
         {
             sr.flipX = true;
         }
