@@ -15,6 +15,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float sprintRate;  // ダッシュ時の倍率
     private bool sprint;        // ダッシュ状態かどうか
     private bool isTouched;     // 地面と接触しているか
+    private bool canDouble;     // 2段ジャンプ可能か
 
     void Start()
     {
@@ -76,10 +77,17 @@ public class PlayerControl : MonoBehaviour
         // 地面と接触しているかどうか
         isTouched = rb.IsTouching(filter2d);
 
-        // 地面と接触しているならジャンプ
-        if (isTouched)
+        // 地面と接触しているor２段ジャンプ可能ならジャンプ
+        if (canDouble || isTouched)
         {
             rb.velocity = tf.up * jumpValue;
+            canDouble = false;
+        }
+
+        // 秋フレームで一回目のジャンプの時に2段ジャンプ可能にする
+        if (gm.season == SEASON.AUTUMN && isTouched)
+        {
+            canDouble = true;
         }
     }
 
