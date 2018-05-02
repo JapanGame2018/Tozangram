@@ -91,6 +91,11 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void DoubleJump()
+    {
+
+    }
+
     /// <summary>
     /// スペースが離されたタイミングで降下する関数
     /// </summary>
