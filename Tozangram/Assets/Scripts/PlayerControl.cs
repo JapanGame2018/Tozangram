@@ -13,6 +13,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float jumpValue;   // ジャンプ力
     [SerializeField] private float speed;       // 移動速度
     [SerializeField] private float sprintRate;  // ダッシュ時の倍率
+    [SerializeField] private float jumpRate;    // 2段ジャンプの倍率
+    [SerializeField] private float downForce; // 2段ジャンプ時の落下速度
     private bool sprint;        // ダッシュ状態かどうか
     private bool isTouched;     // 地面と接触しているか
     private bool canDouble;     // 2段ジャンプ可能か
@@ -77,11 +79,17 @@ public class PlayerControl : MonoBehaviour
         // 地面と接触しているかどうか
         isTouched = rb.IsTouching(filter2d);
 
-        // 地面と接触しているor２段ジャンプ可能ならジャンプ
-        if (canDouble || isTouched)
+        // 地面と接触しているならジャンプ
+        if (isTouched)
         {
             rb.velocity = tf.up * jumpValue;
             canDouble = false;
+        }
+
+        // ２段ジャンプ可能なら2段ジャンプ
+        if (canDouble)
+        {
+            StartCoroutine(DoubleJump());
         }
 
         // 秋フレームで一回目のジャンプの時に2段ジャンプ可能にする
@@ -91,9 +99,20 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void DoubleJump()
+    /// <summary>
+    /// 2段ジャンプの関数
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DoubleJump()
     {
-
+        rb.velocity = tf.up * jumpValue * jumpRate;
+        canDouble = false;
+        while (!rb.IsTouching(filter2d))
+        {
+            rb.AddForce(tf.up * -downForce);
+            yield return null;
+        }
+        yield break;
     }
 
     /// <summary>

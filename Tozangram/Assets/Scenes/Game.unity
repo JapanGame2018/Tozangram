@@ -1446,7 +1446,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &922415883
 CircleCollider2D:
@@ -1545,9 +1545,11 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 70
     maxNormalAngle: 110
-  jumpValue: 20
+  jumpValue: 15
   speed: 4
   sprintRate: 1.5
+  jumpRate: 1.8
+  downForce: 50
 --- !u!4 &932305383 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4853189720756712, guid: d68ce43ce894a1d4b95468da3f4b2b50,
