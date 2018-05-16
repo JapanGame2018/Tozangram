@@ -5,11 +5,12 @@ using UnityEngine;
 public class ScrollScreenManager : MonoBehaviour
 {
 
-    private Transform m_camera;
-    [SerializeField, Range(0f, 1f)] private float scrollSpeed;
+    private Transform m_camera;     // 移動させるカメラ
+    [SerializeField, Range(0f, 1f)] private float scrollSpeed;  // スクロール速度：０～１の間で設定
 
     private void Start()
     {
+        // カメラのトランスフォームを取得
         m_camera = GameObject.Find("Main Camera").GetComponent<Transform>();
     }
 
@@ -25,7 +26,6 @@ public class ScrollScreenManager : MonoBehaviour
 
     private IEnumerator MoveCamera(RectTransform rectTransform)
     {
-        Debug.Log("a");
         while(Vector3.Distance(m_camera.position, rectTransform.position) > 0)
         {
             m_camera.position = Vector3.Lerp(m_camera.position, rectTransform.position, scrollSpeed);
