@@ -10,7 +10,7 @@ public enum SEASON
 
 public enum STATE
 {
-    GAME, POSE, TRANS
+    GAME, POSE, TRANS, SCROLL
 }
 
 public class GameManager : MonoBehaviour
