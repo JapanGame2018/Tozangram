@@ -10,7 +10,7 @@ public enum SEASON
 
 public enum STATE
 {
-    GAME, POSE, TRANS, SCROLL
+    GAME, POSE, TRANS
 }
 
 public class GameManager : MonoBehaviour
@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator ChangeFlame()
     {
         state = STATE.TRANS;
+        SEASON current = season;
+
         Time.timeScale = 0f;
         flameList[0].SetActive(true);
 
@@ -72,6 +74,12 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        // 現在と違うものを選択していた場合
+        if(season != current)
+        {
+            Fetch(current, season);
+        }
+
         state = STATE.GAME;
         Time.timeScale = 1f;
         flameList[0].SetActive(false);
@@ -90,4 +98,40 @@ public class GameManager : MonoBehaviour
         }
         flameList[(int)select].SetActive(true);
     }
+
+    private void Fetch(SEASON before, SEASON after)
+    {
+        SpringFlameManager sfm = GetComponent<SpringFlameManager>();
+        Debug.Log(before + "," + after);
+        switch (before)
+        {
+            case SEASON.NONE:
+                break;
+            case SEASON.SPRING:
+                sfm.Desabled();
+                break;
+            case SEASON.SUMMER:
+                break;
+            case SEASON.AUTUMN:
+                break;
+            case SEASON.WINTER:
+                break;
+        }
+
+        switch (after)
+        {
+            case SEASON.NONE:
+                break;
+            case SEASON.SPRING:
+                sfm.Enabled();
+                break;
+            case SEASON.SUMMER:
+                break;
+            case SEASON.AUTUMN:
+                break;
+            case SEASON.WINTER:
+                break;
+        }
+    }
+
 }
