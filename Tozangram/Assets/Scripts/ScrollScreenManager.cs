@@ -6,27 +6,31 @@ public class ScrollScreenManager : MonoBehaviour
 {
 
     private Transform m_camera;
-    private RectTransform target;
+    [SerializeField, Range(0f, 1f)] private float scrollSpeed;
 
     private void Start()
     {
         m_camera = GameObject.Find("Main Camera").GetComponent<Transform>();
-        target = GetComponent<RectTransform>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("target"))
         {
-            StartCoroutine(MoveCamera());
-            m_camera.position = new Vector3(target.position.x, target.position.y, -10);
+            StopCoroutine("MoveCamera");
+            StartCoroutine("MoveCamera", collision.GetComponent<RectTransform>());
         }
     }
 
-    private IEnumerator MoveCamera()
+    private IEnumerator MoveCamera(RectTransform rectTransform)
     {
-
+        Debug.Log("a");
+        while(Vector3.Distance(m_camera.position, rectTransform.position) > 0)
+        {
+            m_camera.position = Vector3.Lerp(m_camera.position, rectTransform.position, scrollSpeed);
+            yield return null;
+        }
         yield break;
     }
 }
