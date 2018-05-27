@@ -5,19 +5,21 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
 
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     Transform tf;
     SpriteRenderer sr;
-    GameManager gm;
-    [SerializeField] ContactFilter2D filter2d;
+    public GameManager gm;
+    [SerializeField] public ContactFilter2D filter2d;
     [SerializeField] private float jumpValue;   // ジャンプ力
     [SerializeField] private float speed;       // 移動速度
     [SerializeField] private float sprintRate;  // ダッシュ時の倍率
     [SerializeField] private float jumpRate;    // 2段ジャンプの倍率
     [SerializeField] private float downForce; // 2段ジャンプ時の落下速度
+    private float gravityScale;
     private bool sprint;        // ダッシュ状態かどうか
-    private bool isTouched;     // 地面と接触しているか
     private bool canDouble;     // 2段ジャンプ可能か
+    public bool isTouched;     // 地面と接触しているか
+    public bool crimbable;      // 壁登れるか
 
     void Start()
     {
@@ -26,6 +28,8 @@ public class PlayerControl : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tf = transform;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        gravityScale = rb.gravityScale;
     }
 
     void Update()
@@ -68,6 +72,12 @@ public class PlayerControl : MonoBehaviour
         else
         {
             sprint = false;
+        }
+
+        // 昇降が可能な時、上下に移動
+        if (crimbable && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)))
+        {
+            Crimb(Input.GetAxisRaw("Vertical"));
         }
     }
 
@@ -149,6 +159,27 @@ public class PlayerControl : MonoBehaviour
         else if (value < 0)
         {
             sr.flipX = true;
+        }
+    }
+
+    /// <summary>
+    /// キャラを上下に移動する関数
+    /// </summary>
+    /// <param name="value">上下の矢印キーからの入力値</param>
+    private void Crimb(float value)
+    {
+        tf.Translate(0, value * 0.1f, 0);
+    }
+
+    public void ActiveGravity(bool active)
+    {
+        if (active)
+        {
+            rb.gravityScale = gravityScale;
+        }
+        else
+        {
+            rb.gravityScale = 0;
         }
     }
 }
