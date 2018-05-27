@@ -101,16 +101,17 @@ public class GameManager : MonoBehaviour
 
     private void Fetch(SEASON before, SEASON after)
     {
-        SpringFlameManager sfm = GetComponent<SpringFlameManager>();
-        Debug.Log(before + "," + after);
         switch (before)
         {
             case SEASON.NONE:
                 break;
             case SEASON.SPRING:
-                sfm.Desabled();
+                SpringFlameManager spring = GetComponent<SpringFlameManager>();
+                spring.Desabled();
                 break;
             case SEASON.SUMMER:
+                SummerFlameManager summer = GetComponent<SummerFlameManager>();
+                summer.Desabled();
                 break;
             case SEASON.AUTUMN:
                 break;
@@ -123,9 +124,12 @@ public class GameManager : MonoBehaviour
             case SEASON.NONE:
                 break;
             case SEASON.SPRING:
-                sfm.Enabled();
+                SpringFlameManager spring = GetComponent<SpringFlameManager>();
+                spring.Enabled();
                 break;
             case SEASON.SUMMER:
+                SummerFlameManager summer = GetComponent<SummerFlameManager>();
+                summer.Enabled();
                 break;
             case SEASON.AUTUMN:
                 break;
