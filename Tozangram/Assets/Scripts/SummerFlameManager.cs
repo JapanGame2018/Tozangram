@@ -8,7 +8,7 @@ public class SummerFlameManager : MonoBehaviour {
     [SerializeField] private GameObject crimbableWall;
     private TilemapRenderer crimbableRender;
 
-    private void Start()
+    private void Awake()
     {
         crimbableRender = crimbableWall.GetComponent<TilemapRenderer>();
     }

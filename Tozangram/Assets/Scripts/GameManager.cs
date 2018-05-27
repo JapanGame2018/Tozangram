@@ -20,6 +20,18 @@ public class GameManager : MonoBehaviour
     public SEASON season = SEASON.NONE;
     public STATE state = STATE.GAME;
 
+    SpringFlameManager spring;
+    SummerFlameManager summer;
+    WinterFlameManager winter;
+
+
+    private void Awake()
+    {
+        spring = GetComponent<SpringFlameManager>();
+        summer = GetComponent<SummerFlameManager>();
+        winter = GetComponent<WinterFlameManager>();
+    }
+
     void Update()
     {
         GetKey();
@@ -105,17 +117,16 @@ public class GameManager : MonoBehaviour
         {
             case SEASON.NONE:
                 break;
-            case SEASON.SPRING:
-                SpringFlameManager spring = GetComponent<SpringFlameManager>();
+            case SEASON.SPRING:                
                 spring.Desabled();
                 break;
             case SEASON.SUMMER:
-                SummerFlameManager summer = GetComponent<SummerFlameManager>();
                 summer.Desabled();
                 break;
             case SEASON.AUTUMN:
                 break;
             case SEASON.WINTER:
+                winter.Desabled();
                 break;
         }
 
@@ -124,16 +135,15 @@ public class GameManager : MonoBehaviour
             case SEASON.NONE:
                 break;
             case SEASON.SPRING:
-                SpringFlameManager spring = GetComponent<SpringFlameManager>();
                 spring.Enabled();
                 break;
             case SEASON.SUMMER:
-                SummerFlameManager summer = GetComponent<SummerFlameManager>();
                 summer.Enabled();
                 break;
             case SEASON.AUTUMN:
                 break;
             case SEASON.WINTER:
+                winter.Enabled();
                 break;
         }
     }

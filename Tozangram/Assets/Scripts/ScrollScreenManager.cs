@@ -8,7 +8,7 @@ public class ScrollScreenManager : MonoBehaviour
     private Transform m_camera;     // 移動させるカメラ
     [SerializeField, Range(0f, 1f)] private float scrollSpeed;  // スクロール速度：０～１の間で設定
 
-    private void Start()
+    private void Awake()
     {
         // カメラのトランスフォームを取得
         m_camera = GameObject.Find("Main Camera").GetComponent<Transform>();

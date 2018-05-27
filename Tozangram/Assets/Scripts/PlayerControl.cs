@@ -5,13 +5,13 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
 
-    public Rigidbody2D rb;
     Transform tf;
     SpriteRenderer sr;
-    public GameManager gm;
+    [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public GameManager gm;
     [SerializeField] public ContactFilter2D filter2d;
     [SerializeField] private float jumpValue;   // ジャンプ力
-    [SerializeField] private float speed;       // 移動速度
+    public float speed;       // 移動速度
     [SerializeField] private float sprintRate;  // ダッシュ時の倍率
     [SerializeField] private float jumpRate;    // 2段ジャンプの倍率
     [SerializeField] private float downForce; // 2段ジャンプ時の落下速度
