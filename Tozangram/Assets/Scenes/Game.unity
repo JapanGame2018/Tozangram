@@ -1255,6 +1255,7 @@ GameObject:
   - component: {fileID: 950241299}
   - component: {fileID: 950241300}
   - component: {fileID: 950241301}
+  - component: {fileID: 950241302}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1319,6 +1320,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crimbableWall: {fileID: 2060882287}
+--- !u!114 &950241302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 950241297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b158163f10762ca48a68bb10fc9b5c29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalMaterial: {fileID: 6200000, guid: 8ea61be9481bd1243b1b9f710f74339c, type: 2}
+  winterMaterial: {fileID: 6200000, guid: 326968e69ade5844682549de7d9822ea, type: 2}
+  moveRate: 1.4
 --- !u!224 &986453248 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224497122978370914, guid: 5a5a401b9dcf0234c89fe2d3dc1d19e8,

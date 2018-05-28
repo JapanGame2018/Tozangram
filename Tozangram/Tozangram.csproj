@@ -295,6 +295,7 @@
     <Compile Include="Assets\Scripts\ScrollScreenManager.cs" />
     <Compile Include="Assets\Scripts\SpringFlameManager.cs" />
     <Compile Include="Assets\Scripts\SummerFlameManager.cs" />
+    <Compile Include="Assets\Scripts\WinterFlameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sprite Pack\Tap and Fly\Readme.txt" />
