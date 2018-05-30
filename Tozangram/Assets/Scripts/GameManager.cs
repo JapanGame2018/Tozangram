@@ -61,7 +61,14 @@ public class GameManager : MonoBehaviour
         {
             if (SceneManager.GetSceneByName("Pose").isLoaded)
             {
-                stm.CloseScene("Pose");
+                if (SceneManager.GetSceneByName("Option").isLoaded)
+                {
+                    stm.CloseScene("Option");
+                }
+                else
+                {
+                    stm.CloseScene("Pose");
+                }
             }
             else
             {
