@@ -13,7 +13,7 @@ public class SummerFlameManager : MonoBehaviour {
         crimbableRender = crimbableWall.GetComponent<TilemapRenderer>();
     }
 
-    public void Desabled()
+    public void Disabled()
     {
         crimbableRender.enabled = !enabled;
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>季節の一覧</summary>
 public enum SEASON
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     SpringFlameManager spring;
     SummerFlameManager summer;
     WinterFlameManager winter;
+    SceneTransitionManager stm;
 
 
     private void Awake()
@@ -30,6 +32,13 @@ public class GameManager : MonoBehaviour
         spring = GetComponent<SpringFlameManager>();
         summer = GetComponent<SummerFlameManager>();
         winter = GetComponent<WinterFlameManager>();
+        stm = GameObject.Find("SceneManager").GetComponent<SceneTransitionManager>();
+    }
+
+    private void Start()
+    {
+        state = STATE.GAME;
+        Time.timeScale = 1.0f;
     }
 
     void Update()
@@ -45,6 +54,19 @@ public class GameManager : MonoBehaviour
         if(state == STATE.GAME && (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)))
         {
             StartCoroutine(ChangeFlame());
+        }
+
+        // ポーズ画面
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            if (SceneManager.GetSceneByName("Pose").isLoaded)
+            {
+                stm.CloseScene("Pose");
+            }
+            else
+            {
+                stm.OpenScene("Pose");
+            }
         }
     }
 
@@ -118,15 +140,15 @@ public class GameManager : MonoBehaviour
             case SEASON.NONE:
                 break;
             case SEASON.SPRING:                
-                spring.Desabled();
+                spring.Disabled();
                 break;
             case SEASON.SUMMER:
-                summer.Desabled();
+                summer.Disabled();
                 break;
             case SEASON.AUTUMN:
                 break;
             case SEASON.WINTER:
-                winter.Desabled();
+                winter.Disabled();
                 break;
         }
 

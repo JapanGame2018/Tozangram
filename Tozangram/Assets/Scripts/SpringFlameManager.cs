@@ -13,7 +13,7 @@ public class SpringFlameManager : MonoBehaviour
         flowers = GameObject.FindGameObjectsWithTag("Flower");
     }
 
-    public void Desabled()
+    public void Disabled()
     {
         foreach (var item in flowers)
         {

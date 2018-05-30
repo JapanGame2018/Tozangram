@@ -289,9 +289,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\CrimbableFlag.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\OptionValueManager.cs" />
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
+    <Compile Include="Assets\Scripts\SceneTransitionManager.cs" />
     <Compile Include="Assets\Scripts\ScrollScreenManager.cs" />
     <Compile Include="Assets\Scripts\SpringFlameManager.cs" />
     <Compile Include="Assets\Scripts\SummerFlameManager.cs" />
