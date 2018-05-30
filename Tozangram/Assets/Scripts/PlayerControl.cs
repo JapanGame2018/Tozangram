@@ -1,34 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
 
     Transform tf;
     SpriteRenderer sr;
+    SceneTransitionManager stm;
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public GameManager gm;
     [SerializeField] public ContactFilter2D filter2d;
     [SerializeField] private float jumpValue;   // ジャンプ力
-    public float speed;       // 移動速度
+    public float speed;         // 移動速度
     [SerializeField] private float sprintRate;  // ダッシュ時の倍率
     [SerializeField] private float jumpRate;    // 2段ジャンプの倍率
     [SerializeField] private float downForce; // 2段ジャンプ時の落下速度
     private float gravityScale;
     private bool sprint;        // ダッシュ状態かどうか
     private bool canDouble;     // 2段ジャンプ可能か
-    public bool isTouched;     // 地面と接触しているか
+    public bool isTouched;      // 地面と接触しているか
     public bool crimbable;      // 壁登れるか
 
-    void Start()
+    private void Awake()
     {
         // コンポーネントをキャッシュ
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         tf = transform;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
 
+    void Start()
+    {
         gravityScale = rb.gravityScale;
     }
 

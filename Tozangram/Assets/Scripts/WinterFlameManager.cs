@@ -22,7 +22,7 @@ public class WinterFlameManager : MonoBehaviour {
         speed = pc.speed;
     }
 
-    public void Desabled()
+    public void Disabled()
     {
         collider.sharedMaterial = normalMaterial;
         pc.speed = speed;
