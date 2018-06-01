@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WinterFlameManager : MonoBehaviour {
 
-    Collider2D collider;
+    Collider2D col2D;
     PlayerControl pc;
     [SerializeField] private PhysicsMaterial2D normalMaterial;
     [SerializeField] private PhysicsMaterial2D winterMaterial;
@@ -13,7 +13,7 @@ public class WinterFlameManager : MonoBehaviour {
 
     private void Awake()
     {
-        collider = GameObject.FindWithTag("Player").GetComponent<CircleCollider2D>();
+        col2D = GameObject.FindWithTag("Player").GetComponent<CircleCollider2D>();
         pc = GameObject.FindWithTag("Player").GetComponent<PlayerControl>();
     }
 
@@ -24,13 +24,13 @@ public class WinterFlameManager : MonoBehaviour {
 
     public void Disabled()
     {
-        collider.sharedMaterial = normalMaterial;
+        col2D.sharedMaterial = normalMaterial;
         pc.speed = speed;
     }
 
 	public void Enabled()
     {
-        collider.sharedMaterial = winterMaterial;
+        col2D.sharedMaterial = winterMaterial;
         pc.speed = speed * moveRate;
     }
 

@@ -1201,6 +1201,44 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a5a401b9dcf0234c89fe2d3dc1d19e8, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &899633945 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1274360073286654, guid: 5a5a401b9dcf0234c89fe2d3dc1d19e8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1252678696}
+--- !u!114 &899633946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 899633945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &899633947
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 899633945}
 --- !u!1001 &919375963
 Prefab:
   m_ObjectHideFlags: 0
@@ -1641,6 +1679,7 @@ GameObject:
   - component: {fileID: 950241300}
   - component: {fileID: 950241301}
   - component: {fileID: 950241302}
+  - component: {fileID: 950241303}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1680,6 +1719,7 @@ MonoBehaviour:
   - {fileID: 1105573375}
   season: 0
   state: 0
+  snapTf: {fileID: 0}
 --- !u!114 &950241300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1719,6 +1759,17 @@ MonoBehaviour:
   normalMaterial: {fileID: 6200000, guid: 8ea61be9481bd1243b1b9f710f74339c, type: 2}
   winterMaterial: {fileID: 6200000, guid: 326968e69ade5844682549de7d9822ea, type: 2}
   moveRate: 1.4
+--- !u!114 &950241303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 950241297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bf70d661b548348b1de6e96b7db407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &959453682 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224497122978370914, guid: 5a5a401b9dcf0234c89fe2d3dc1d19e8,

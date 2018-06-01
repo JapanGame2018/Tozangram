@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     SummerFlameManager summer;
     WinterFlameManager winter;
     SceneTransitionManager stm;
+    SnapManager snap;
+    public Transform snapTf;
 
 
     private void Awake()
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
         spring = GetComponent<SpringFlameManager>();
         summer = GetComponent<SummerFlameManager>();
         winter = GetComponent<WinterFlameManager>();
+        snap = GetComponent<SnapManager>();
         stm = GameObject.Find("SceneManager").GetComponent<SceneTransitionManager>();
     }
 
@@ -51,9 +54,17 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void GetKey()
     {
-        if(state == STATE.GAME && (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)))
+        if (state == STATE.GAME)
         {
-            StartCoroutine(ChangeFlame());
+            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+            {
+                StartCoroutine(ChangeFlame());
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                snap.ClickShootButton(snapTf.position.x + "_" + snapTf.position.y);
+            }
         }
 
         // ポーズ画面
@@ -64,6 +75,10 @@ public class GameManager : MonoBehaviour
                 if (SceneManager.GetSceneByName("Option").isLoaded)
                 {
                     stm.CloseScene("Option");
+                }
+                else if (SceneManager.GetSceneByName("Album").isLoaded)
+                {
+                    stm.CloseScene("Album");
                 }
                 else
                 {
@@ -87,7 +102,7 @@ public class GameManager : MonoBehaviour
 
         int time = 60;
 
-        for(int i = time;i > 0;i--)
+        for (int i = time; i > 0; i--)
         {
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -116,7 +131,7 @@ public class GameManager : MonoBehaviour
         }
 
         // 現在と違うものを選択していた場合
-        if(season != current)
+        if (season != current)
         {
             Fetch(current, season);
         }
@@ -146,7 +161,7 @@ public class GameManager : MonoBehaviour
         {
             case SEASON.NONE:
                 break;
-            case SEASON.SPRING:                
+            case SEASON.SPRING:
                 spring.Disabled();
                 break;
             case SEASON.SUMMER:
