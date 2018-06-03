@@ -5,57 +5,43 @@ using System.Linq;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class AlubmManager : MonoBehaviour
 {
 
-    //public string screenShotPath;
+    [SerializeField] private float cursorSpeed = 1.0f;
+
     [SerializeField] private GameObject targetImage;
+    private Transform player;
     private Transform content;
     SnapManager snap;
 
-
-    private void Awake()
-    {
-    }
-
-    // Use this for initialization
     void Start()
     {
         content = GameObject.Find("Content").transform;
         snap = GameObject.Find("GameManager").GetComponent<SnapManager>();
+        player = GameObject.Find("Player").transform;
         ShowSSImage();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-
+        GetKey();
     }
 
-    public void LoadSSImage()
+    private void GetKey()
     {
-        Texture2D[] imageArray = Resources.LoadAll<Texture2D>("Album");
-        foreach (var item in imageArray)
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            try
-            {
-                Debug.Log(item.name);
-                var point = item.name.Split('_');
+            SelectPic();
+        }
 
-                RawImage target = Instantiate(targetImage, content).GetComponent<RawImage>();
-                target.texture = item;
-
-                target.GetComponent<RectTransform>().localPosition = new Vector2(int.Parse(point[0]) * 10 + 800, int.Parse(point[1]) * 10 - 500);
-
-
-                target.name = item.name;
-            }
-            catch
-            {
-                Debug.Log(item.name + " is fail");
-            }
-
+        if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.UpArrow))
+        {
+            MoveAlbum(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
     }
 
@@ -64,8 +50,6 @@ public class AlubmManager : MonoBehaviour
         foreach (string item in snap.pathList)
         {
             string[] point = item.Split('_', '.');
-
-            Debug.Log(point[1] + point[2]);
 
             byte[] image = File.ReadAllBytes(item);
 
@@ -76,7 +60,29 @@ public class AlubmManager : MonoBehaviour
             target.texture = tex;
             target.name = item;
 
-            target.GetComponent<RectTransform>().localPosition = new Vector2(int.Parse(point[1]) * 10 + 800, int.Parse(point[2]) * 10 - 500);
+            target.GetComponent<RectTransform>().localPosition = new Vector2(int.Parse(point[1]) * 10 + 1200, int.Parse(point[2]) * 10 - 750);
         }
+    }
+
+    public void SelectPic()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+
+        if (hit.collider)
+        {
+            string[] pos = hit.collider.name.Split('_', '.');
+
+            player.position = new Vector2(int.Parse(pos[1]), int.Parse(pos[2]));
+
+            Debug.Log(pos[1] + ":" + pos[2]);
+
+        }
+    }
+
+    private void MoveAlbum(float value_x, float value_y)
+    {
+        content.Translate(value_x * cursorSpeed , value_y * cursorSpeed, 0);
     }
 }

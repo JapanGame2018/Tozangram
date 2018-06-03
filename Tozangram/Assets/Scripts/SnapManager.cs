@@ -22,6 +22,7 @@ public class SnapManager : MonoBehaviour
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         canvas = GameObject.Find("Canvas");
         targetImage = GameObject.Find("RawImage");
+
         try
         {
             StreamReader sr = new StreamReader(@"Assets/Resources/AlbumData.csv", Encoding.GetEncoding("Shift_JIS"));

@@ -196,12 +196,13 @@ public class GameManager : MonoBehaviour
 
     public void Save()
     {
+
         StreamWriter sw = new StreamWriter(@"Assets/Resources/AlbumData.csv", false, Encoding.GetEncoding("Shift_JIS"));
         foreach (string item in snap.pathList)
         {
             sw.WriteLine(item);
         }
-
         sw.Close();
+
     }
 }
