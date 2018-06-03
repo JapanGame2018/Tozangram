@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.C))
             {
-                snap.ClickShootButton(snapTf.position.x + "_" + snapTf.position.y);
+                snap.ClickShootButton("_" + snapTf.position.x + "_" + snapTf.position.y);
             }
         }
 

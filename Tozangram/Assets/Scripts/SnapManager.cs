@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 using System;
 using UnityEngine.UI;
 
@@ -13,15 +14,13 @@ public class SnapManager : MonoBehaviour
     GameObject targetImage;
     string screenShotPath;
     string snapName;
-    List<string> pathList;
+    public List<string> pathList = new List<string>();
 
     void Awake()
     {
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         canvas = GameObject.Find("Canvas");
         targetImage = GameObject.Find("RawImage");
-
-        pathList = new List<string>();
     }
 
     private string GetScreenShotPath(int stageIndex = 0)
@@ -61,6 +60,12 @@ public class SnapManager : MonoBehaviour
 
         // ファイルとして保存するならFile.WriteAllBytes()を実行
         File.WriteAllBytes(screenShotPath, pngData);
+
+        if (!pathList.Contains(screenShotPath))
+        {
+            pathList.Add(screenShotPath);
+        }
+
 
         cam.targetTexture = null;
 
