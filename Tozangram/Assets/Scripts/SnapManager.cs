@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System;
 using UnityEngine.UI;
 
@@ -21,6 +22,21 @@ public class SnapManager : MonoBehaviour
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         canvas = GameObject.Find("Canvas");
         targetImage = GameObject.Find("RawImage");
+        try
+        {
+            StreamReader sr = new StreamReader(@"Assets/Resources/AlbumData.csv", Encoding.GetEncoding("Shift_JIS"));
+            string line;
+            while((line = sr.ReadLine()) != null)
+            {
+                pathList.Add(line);
+            }
+
+            sr.Close();
+        }
+        catch
+        {
+            Debug.Log("アルバム一覧を読み込めませんでした。");
+        }
     }
 
     private string GetScreenShotPath(int stageIndex = 0)

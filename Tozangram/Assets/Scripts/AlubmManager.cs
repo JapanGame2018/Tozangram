@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class AlubmManager : MonoBehaviour
 {
 
-    public string screenShotPath;
+    //public string screenShotPath;
     [SerializeField] private GameObject targetImage;
     private Transform content;
     SnapManager snap;

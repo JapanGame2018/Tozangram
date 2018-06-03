@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Text;
 
 /// <summary>季節の一覧</summary>
 public enum SEASON
@@ -192,4 +194,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Save()
+    {
+        StreamWriter sw = new StreamWriter(@"Assets/Resources/AlbumData.csv", false, Encoding.GetEncoding("Shift_JIS"));
+        foreach (string item in snap.pathList)
+        {
+            sw.WriteLine(item);
+        }
+
+        sw.Close();
+    }
 }
