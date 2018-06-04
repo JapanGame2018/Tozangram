@@ -16,9 +16,15 @@ public enum STATE
     GAME, POSE, TRANS
 }
 
+public enum SPOT
+{
+    NORMAL, PHOTO, GOOD, BEST
+}
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] flameList;
+    public Transform player;
 
     public SEASON season = SEASON.NONE;
     public STATE state = STATE.GAME;
@@ -28,7 +34,6 @@ public class GameManager : MonoBehaviour
     WinterFlameManager winter;
     SceneTransitionManager stm;
     SnapManager snap;
-    public Transform snapTf;
 
 
     private void Awake()
@@ -44,6 +49,8 @@ public class GameManager : MonoBehaviour
     {
         state = STATE.GAME;
         Time.timeScale = 1.0f;
+
+        ReStart();
     }
 
     void Update()
@@ -58,14 +65,16 @@ public class GameManager : MonoBehaviour
     {
         if (state == STATE.GAME)
         {
+            // フレーム変更
             if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
             {
                 StartCoroutine(ChangeFlame());
             }
 
+            // 撮影
             if (Input.GetKeyDown(KeyCode.C))
             {
-                snap.ClickShootButton("_" + snapTf.position.x + "_" + snapTf.position.y);
+                snap.ClickShootButton();
             }
         }
 
@@ -204,5 +213,13 @@ public class GameManager : MonoBehaviour
         }
         sw.Close();
 
+    }
+
+    public void ReStart()
+    {
+        string pos = PlayerPrefs.GetString("reStart");
+        string[] posArray = pos.Split('_');
+
+        player.position = new Vector2(int.Parse(posArray[0]), int.Parse(posArray[1]));
     }
 }

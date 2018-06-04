@@ -14,7 +14,8 @@ public class SnapManager : MonoBehaviour
     GameObject canvas;
     GameObject targetImage;
     string screenShotPath;
-    string snapName;
+    public Vector2 snapPos;
+    public SPOT spot;
     public List<string> pathList = new List<string>();
 
     void Awake()
@@ -40,11 +41,10 @@ public class SnapManager : MonoBehaviour
         }
     }
 
-    private string GetScreenShotPath(int stageIndex = 0)
+    private string GetScreenShotPath(Vector2 pos, int stageIndex = 0)
     {
-        string path = "";
+        string path = "Assets/Resources/Album/" + "_" + pos.x + "_" + pos.y + ".png";
 
-        path = "Assets/Resources/Album/" + snapName + ".png";
         return path;
     }
 
@@ -54,10 +54,10 @@ public class SnapManager : MonoBehaviour
         canvas.SetActive(!canvas.activeSelf);
     }
 
-    private IEnumerator CreateScreenShot(string targetTF)
+    private IEnumerator CreateScreenShot(string path)
     {
         UIStateChange();
-        snapName = targetTF;
+
         // レンダリング完了まで待機
         yield return new WaitForEndOfFrame();
 
@@ -73,14 +73,14 @@ public class SnapManager : MonoBehaviour
         //		texture = ResizeTexture(texture,320,240);
 
         byte[] pngData = texture.EncodeToPNG();
-        screenShotPath = GetScreenShotPath();
-
         // ファイルとして保存するならFile.WriteAllBytes()を実行
-        File.WriteAllBytes(screenShotPath, pngData);
+        File.WriteAllBytes(path, pngData);
 
-        if (!pathList.Contains(screenShotPath))
+        string data = path + "," + spot;
+
+        if (!pathList.Contains(data))
         {
-            pathList.Add(screenShotPath);
+            pathList.Add(data);
         }
 
 
@@ -107,9 +107,15 @@ public class SnapManager : MonoBehaviour
         return dst;
     }
 
-    public void ClickShootButton(string targetTF)
+    public void ClickShootButton()
     {
-        StartCoroutine(CreateScreenShot(targetTF));
+        screenShotPath = GetScreenShotPath(snapPos);
+        StartCoroutine(CreateScreenShot(screenShotPath));
+
+        if(spot != SPOT.NORMAL)
+        {
+            PlayerPrefs.SetString("reStart", snapPos.x + "_" + snapPos.y);
+        }
     }
 
     public void ShowSSImage()

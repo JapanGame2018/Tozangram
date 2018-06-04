@@ -49,18 +49,20 @@ public class AlubmManager : MonoBehaviour
     {
         foreach (string item in snap.pathList)
         {
-            string[] point = item.Split('_', '.');
+            string[] path = item.Split(',');
+            string[] pos = path[0].Split('_', '.');
 
-            byte[] image = File.ReadAllBytes(item);
+            byte[] image = File.ReadAllBytes(path[0]);
 
             Texture2D tex = new Texture2D(0, 0);
             tex.LoadImage(image);
 
             RawImage target = Instantiate(targetImage, content).GetComponent<RawImage>();
             target.texture = tex;
+            target.GetComponent<PhotoSpot>().spot = (SPOT)Enum.Parse(typeof(SPOT), path[1]);
             target.name = item;
 
-            target.GetComponent<RectTransform>().localPosition = new Vector2(int.Parse(point[1]) * 10 + 1200, int.Parse(point[2]) * 10 - 750);
+            target.GetComponent<RectTransform>().localPosition = new Vector2(int.Parse(pos[1]) * 10 + 1200, int.Parse(pos[2]) * 10 - 750);
         }
     }
 
@@ -70,7 +72,7 @@ public class AlubmManager : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-        if (hit.collider)
+        if (hit.collider.GetComponent<PhotoSpot>().spot == SPOT.GOOD)
         {
             string[] pos = hit.collider.name.Split('_', '.');
 

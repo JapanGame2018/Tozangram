@@ -42,6 +42,9 @@ public class SceneTransitionManager : MonoBehaviour
         {
             PoseClose();
         }
+
+        Resources.UnloadUnusedAssets();
+
     }
 
     private void OptionClose()
