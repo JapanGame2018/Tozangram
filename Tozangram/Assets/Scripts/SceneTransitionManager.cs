@@ -34,7 +34,7 @@ public class SceneTransitionManager : MonoBehaviour
     public void CloseScene(string sceneName)
     {
         SceneManager.UnloadSceneAsync(sceneName);
-        if(sceneName == "Option")
+        if(sceneName == "Option" || sceneName == "Album")
         {
             OptionClose();
         }
@@ -42,6 +42,9 @@ public class SceneTransitionManager : MonoBehaviour
         {
             PoseClose();
         }
+
+        Resources.UnloadUnusedAssets();
+
     }
 
     private void OptionClose()

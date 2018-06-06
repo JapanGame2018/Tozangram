@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Text;
 
 /// <summary>季節の一覧</summary>
 public enum SEASON
@@ -14,9 +16,15 @@ public enum STATE
     GAME, POSE, TRANS
 }
 
+public enum SPOT
+{
+    NORMAL, PHOTO, GOOD, BEST
+}
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] flameList;
+    public Transform player;
 
     public SEASON season = SEASON.NONE;
     public STATE state = STATE.GAME;
@@ -25,6 +33,7 @@ public class GameManager : MonoBehaviour
     SummerFlameManager summer;
     WinterFlameManager winter;
     SceneTransitionManager stm;
+    SnapManager snap;
 
 
     private void Awake()
@@ -32,6 +41,7 @@ public class GameManager : MonoBehaviour
         spring = GetComponent<SpringFlameManager>();
         summer = GetComponent<SummerFlameManager>();
         winter = GetComponent<WinterFlameManager>();
+        snap = GetComponent<SnapManager>();
         stm = GameObject.Find("SceneManager").GetComponent<SceneTransitionManager>();
     }
 
@@ -39,6 +49,8 @@ public class GameManager : MonoBehaviour
     {
         state = STATE.GAME;
         Time.timeScale = 1.0f;
+
+        ReStart();
     }
 
     void Update()
@@ -51,9 +63,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void GetKey()
     {
-        if(state == STATE.GAME && (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)))
+        if (state == STATE.GAME)
         {
-            StartCoroutine(ChangeFlame());
+            // フレーム変更
+            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+            {
+                StartCoroutine(ChangeFlame());
+            }
+
+            // 撮影
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                snap.ClickShootButton();
+            }
         }
 
         // ポーズ画面
@@ -61,7 +83,18 @@ public class GameManager : MonoBehaviour
         {
             if (SceneManager.GetSceneByName("Pose").isLoaded)
             {
-                stm.CloseScene("Pose");
+                if (SceneManager.GetSceneByName("Option").isLoaded)
+                {
+                    stm.CloseScene("Option");
+                }
+                else if (SceneManager.GetSceneByName("Album").isLoaded)
+                {
+                    stm.CloseScene("Album");
+                }
+                else
+                {
+                    stm.CloseScene("Pose");
+                }
             }
             else
             {
@@ -80,7 +113,7 @@ public class GameManager : MonoBehaviour
 
         int time = 60;
 
-        for(int i = time;i > 0;i--)
+        for (int i = time; i > 0; i--)
         {
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -109,7 +142,7 @@ public class GameManager : MonoBehaviour
         }
 
         // 現在と違うものを選択していた場合
-        if(season != current)
+        if (season != current)
         {
             Fetch(current, season);
         }
@@ -139,7 +172,7 @@ public class GameManager : MonoBehaviour
         {
             case SEASON.NONE:
                 break;
-            case SEASON.SPRING:                
+            case SEASON.SPRING:
                 spring.Disabled();
                 break;
             case SEASON.SUMMER:
@@ -170,4 +203,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Save()
+    {
+
+        StreamWriter sw = new StreamWriter(@"Assets/Resources/AlbumData.csv", false, Encoding.GetEncoding("Shift_JIS"));
+        foreach (string item in snap.pathList)
+        {
+            sw.WriteLine(item);
+        }
+        sw.Close();
+
+    }
+
+    // リスタート地点へ移動
+    public void ReStart()
+    {
+        string pos = PlayerPrefs.GetString("reStart");
+        string[] posArray = pos.Split('_');
+
+        player.position = new Vector2(int.Parse(posArray[0]), int.Parse(posArray[1]));
+    }
 }

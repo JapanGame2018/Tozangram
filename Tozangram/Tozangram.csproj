@@ -289,16 +289,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AlubmManager.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\CrimbableFlag.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\OptionValueManager.cs" />
+    <Compile Include="Assets\Scripts\PhotoSpot.cs" />
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\SceneTransitionManager.cs" />
     <Compile Include="Assets\Scripts\ScrollScreenManager.cs" />
-    <Compile Include="Assets\Scripts\SpringFlameManager.cs" />
-    <Compile Include="Assets\Scripts\SummerFlameManager.cs" />
-    <Compile Include="Assets\Scripts\WinterFlameManager.cs" />
+    <Compile Include="Assets\Scripts\SesonManagers\SpringFlameManager.cs" />
+    <Compile Include="Assets\Scripts\SesonManagers\SummerFlameManager.cs" />
+    <Compile Include="Assets\Scripts\SesonManagers\WinterFlameManager.cs" />
+    <Compile Include="Assets\Scripts\SnapManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sprite Pack\Tap and Fly\Readme.txt" />
