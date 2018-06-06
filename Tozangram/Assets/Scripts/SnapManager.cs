@@ -13,6 +13,7 @@ public class SnapManager : MonoBehaviour
     Camera cam;
     GameObject canvas;
     GameObject targetImage;
+    GameManager gm;
     string screenShotPath;
     public Vector2 snapPos;
     public SPOT spot;
@@ -23,6 +24,7 @@ public class SnapManager : MonoBehaviour
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         canvas = GameObject.Find("Canvas");
         targetImage = GameObject.Find("RawImage");
+        gm = GetComponent<GameManager>();
 
         try
         {
@@ -88,6 +90,7 @@ public class SnapManager : MonoBehaviour
 
         Debug.Log("Done!");
         UIStateChange();
+        gm.Save();
     }
 
     Texture2D ResizeTexture(Texture2D src, int dst_w, int dst_h)

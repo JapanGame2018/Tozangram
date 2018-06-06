@@ -6,16 +6,12 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-
-    [HideInInspector] public AudioSource seSource;
-    [HideInInspector] public AudioSource bgmSource;
+    public AudioSource audioSource;
     [SerializeField] AudioClip[] audioClip;
 
     private void Awake()
     {
-        AudioSource[] audioSources = GetComponents<AudioSource>();
-        seSource = audioSources[0];
-        bgmSource = audioSources[1];
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -26,13 +22,12 @@ public class AudioManager : MonoBehaviour
             StaticValue.bgmValue = PlayerPrefs.GetFloat("BGM");
         }
 
-        seSource.volume = StaticValue.seValue;
-        bgmSource.volume = StaticValue.bgmValue;
+        audioSource.volume = StaticValue.bgmValue;
     }
 
     public void PlaySE(int index)
     {
-        seSource.PlayOneShot(audioClip[index]);
+        audioSource.PlayOneShot(audioClip[index], StaticValue.seValue);
     }
 }
 

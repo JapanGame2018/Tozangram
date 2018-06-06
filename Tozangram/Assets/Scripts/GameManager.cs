@@ -215,6 +215,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // リスタート地点へ移動
     public void ReStart()
     {
         string pos = PlayerPrefs.GetString("reStart");

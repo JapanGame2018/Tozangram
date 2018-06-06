@@ -298,10 +298,10 @@
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\SceneTransitionManager.cs" />
     <Compile Include="Assets\Scripts\ScrollScreenManager.cs" />
+    <Compile Include="Assets\Scripts\SesonManagers\SpringFlameManager.cs" />
+    <Compile Include="Assets\Scripts\SesonManagers\SummerFlameManager.cs" />
+    <Compile Include="Assets\Scripts\SesonManagers\WinterFlameManager.cs" />
     <Compile Include="Assets\Scripts\SnapManager.cs" />
-    <Compile Include="Assets\Scripts\SpringFlameManager.cs" />
-    <Compile Include="Assets\Scripts\SummerFlameManager.cs" />
-    <Compile Include="Assets\Scripts\WinterFlameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sprite Pack\Tap and Fly\Readme.txt" />

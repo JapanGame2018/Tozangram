@@ -30,13 +30,12 @@ public class OptionValueManager : MonoBehaviour
 
     public void changeSEValue(float value)
     {
-        am.seSource.volume = value;
         StaticValue.seValue = value;
     }
 
     public void changeBGMValue(float value)
     {
-        am.bgmSource.volume = value;
+        am.audioSource.volume = value;
         StaticValue.bgmValue = value;
     }
 }
