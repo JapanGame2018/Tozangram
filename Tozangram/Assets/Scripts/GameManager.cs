@@ -203,6 +203,8 @@ public class GameManager : MonoBehaviour
             case SEASON.WINTER:
                 winter.Disabled();
                 break;
+            default:
+                break;
         }
 
         switch (after)
@@ -219,6 +221,8 @@ public class GameManager : MonoBehaviour
                 break;
             case SEASON.WINTER:
                 winter.Enabled();
+                break;
+            default:
                 break;
         }
     }
@@ -241,7 +245,7 @@ public class GameManager : MonoBehaviour
         string pos = PlayerPrefs.GetString("reStart");
         string[] posArray = pos.Split('_');
 
-        player.position = new Vector2(int.Parse(posArray[0]), int.Parse(posArray[1]));
+        player.position = new Vector2(float.Parse(posArray[0]), float.Parse(posArray[1]));
     }
 
     /// <summary>
@@ -261,6 +265,8 @@ public class GameManager : MonoBehaviour
                 break;
             case STATE.TRANS:
                 Time.timeScale = 0f;
+                break;
+            default:
                 break;
         }
     }
