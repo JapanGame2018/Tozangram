@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour
     Transform tf;
     SpriteRenderer sr;
     SceneTransitionManager stm;
+    Animator anim;
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public GameManager gm;
     [SerializeField] public ContactFilter2D filter2d;
@@ -23,12 +24,15 @@ public class PlayerControl : MonoBehaviour
     public bool isTouched;      // 地面と接触しているか
     public bool crimbable;      // 壁登れるか
 
+    [SerializeField] AnimationSprite[] motions;
+
     private void Awake()
     {
         // コンポーネントをキャッシュ
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         tf = transform;
+        anim = GetComponent<Animator>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
@@ -43,6 +47,8 @@ public class PlayerControl : MonoBehaviour
         if (gm.state == STATE.GAME)
         {
             GetKey();
+
+            //anim.SetFloat("Fall", rb.velocity.y);
         }
     }
 
@@ -67,6 +73,11 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
         {
             Move(Input.GetAxisRaw("Horizontal"));
+            
+        }
+        else
+        {
+            anim.Play("a");
         }
 
         // シフトが押されている間、ダッシュ状態
@@ -145,6 +156,8 @@ public class PlayerControl : MonoBehaviour
     /// <param name="value">左右の矢印キーからの入力値</param>
     private void Move(float value)
     {
+        AnimeWalk();
+
         float moveValue = speed;
 
         // スプリント中なら速度を上げる
@@ -159,11 +172,11 @@ public class PlayerControl : MonoBehaviour
         // 移動方向にキャラクターを向ける
         if (value > 0)
         {
-            sr.flipX = false;
+            sr.flipX = true;
         }
         else if (value < 0)
         {
-            sr.flipX = true;
+            sr.flipX = false;
         }
     }
 
@@ -187,4 +200,37 @@ public class PlayerControl : MonoBehaviour
             rb.gravityScale = 0;
         }
     }
+
+
+    private void AnimeIdol()
+    {
+        
+    }
+
+    private void AnimeWalk()
+    {
+        anim.Play("Walk");
+    }
+
+    private void AnimeJump()
+    {
+
+    }
+
+    private void AnimeFall()
+    {
+
+    }
+}
+
+
+[System.Serializable]
+public class AnimationSprite
+{
+    public Sprite[] idol;
+    public AnimationClip walk;
+    public AnimationClip run;
+    public Sprite[] jump;
+    public Sprite[] fall;
+    
 }
