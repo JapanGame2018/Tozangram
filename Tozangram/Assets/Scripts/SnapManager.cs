@@ -16,6 +16,7 @@ public class SnapManager : MonoBehaviour
     GameManager gm;
     string screenShotPath;
     public Vector2 snapPos;
+    public Vector2 reStartPos;
     public SPOT spot;
     public List<string> pathList = new List<string>();
 
@@ -28,19 +29,24 @@ public class SnapManager : MonoBehaviour
 
         try
         {
-            StreamReader sr = new StreamReader(@"Assets/Resources/AlbumData.csv", Encoding.GetEncoding("Shift_JIS"));
-            string line;
-            while((line = sr.ReadLine()) != null)
-            {
-                pathList.Add(line);
-            }
-
-            sr.Close();
+            LoadAlbumData();
         }
         catch
         {
             Debug.Log("アルバム一覧を読み込めませんでした。");
         }
+    }
+
+    private void LoadAlbumData()
+    {
+        StreamReader sr = new StreamReader(@"Assets/Resources/AlbumData.csv", Encoding.GetEncoding("Shift_JIS"));
+        string line;
+        while ((line = sr.ReadLine()) != null)
+        {
+            pathList.Add(line);
+        }
+
+        sr.Close();
     }
 
     private string GetScreenShotPath(Vector2 pos, int stageIndex = 0)
@@ -78,7 +84,7 @@ public class SnapManager : MonoBehaviour
         // ファイルとして保存するならFile.WriteAllBytes()を実行
         File.WriteAllBytes(path, pngData);
 
-        string data = path + "," + spot;
+        string data = path + "," + spot + "," + reStartPos.x + "," + reStartPos.y;
 
         if (!pathList.Contains(data))
         {
@@ -91,6 +97,17 @@ public class SnapManager : MonoBehaviour
         Debug.Log("Done!");
         UIStateChange();
         gm.Save();
+    }
+
+    public void ClickShootButton()
+    {
+        screenShotPath = GetScreenShotPath(snapPos);
+        StartCoroutine(CreateScreenShot(screenShotPath));
+
+        if(spot != SPOT.NORMAL)
+        {
+            PlayerPrefs.SetString("reStart", reStartPos.x + "_" + reStartPos.y);
+        }
     }
 
     Texture2D ResizeTexture(Texture2D src, int dst_w, int dst_h)
@@ -108,17 +125,6 @@ public class SnapManager : MonoBehaviour
             }
         }
         return dst;
-    }
-
-    public void ClickShootButton()
-    {
-        screenShotPath = GetScreenShotPath(snapPos);
-        StartCoroutine(CreateScreenShot(screenShotPath));
-
-        if(spot != SPOT.NORMAL)
-        {
-            PlayerPrefs.SetString("reStart", snapPos.x + "_" + snapPos.y);
-        }
     }
 
     public void ShowSSImage()

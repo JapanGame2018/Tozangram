@@ -64,14 +64,12 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void PoseOpen()
     {
-        GameObject.Find("GameManager").GetComponent<GameManager>().state = STATE.POSE;
-        Time.timeScale = 0f;
+        GameObject.Find("GameManager").GetComponent<GameManager>().ChangeState(STATE.POSE);
     }
 
     private void PoseClose()
     {
-        GameObject.Find("GameManager").GetComponent<GameManager>().state = STATE.GAME;
-        Time.timeScale = 1.0f;
+        GameObject.Find("GameManager").GetComponent<GameManager>().ChangeState(STATE.GAME);
     }
 
 }

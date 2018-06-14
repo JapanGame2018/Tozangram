@@ -7,7 +7,7 @@ public class ScrollScreenManager : MonoBehaviour
 {
 
     private Transform m_camera;     // 移動させるカメラ
-    SnapManager sm;
+    SnapManager snap;
     [SerializeField, Range(0f, 1f)] private float scrollSpeed;  // スクロール速度：０～１の間で設定
 
     private void Awake()
@@ -15,7 +15,7 @@ public class ScrollScreenManager : MonoBehaviour
         // カメラのトランスフォームを取得
         m_camera = GameObject.Find("Main Camera").GetComponent<Transform>();
 
-        sm = GameObject.Find("GameManager").GetComponent<SnapManager>();
+        snap = GameObject.Find("GameManager").GetComponent<SnapManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -26,8 +26,9 @@ public class ScrollScreenManager : MonoBehaviour
             StopCoroutine("MoveCamera");
             StartCoroutine("MoveCamera", collision.GetComponent<RectTransform>());
 
-            sm.snapPos = collision.transform.position;
-            sm.spot = collision.GetComponent<PhotoSpot>().spot;
+            snap.snapPos = collision.transform.position;
+            snap.spot = collision.GetComponent<PhotoSpot>().spot;
+            snap.reStartPos = collision.GetComponent<PhotoSpot>().reStartPos.position;
         }
     }
 
@@ -35,7 +36,7 @@ public class ScrollScreenManager : MonoBehaviour
     {
         while(Vector3.Distance(m_camera.position, rectTransform.position) > 0)
         {
-            m_camera.position = Vector3.Lerp(m_camera.position, rectTransform.position, scrollSpeed);
+            m_camera.position = Vector3.Lerp(m_camera.position, new Vector3(rectTransform.position.x, rectTransform.position.y, -10f), scrollSpeed);
             yield return null;
         }
         yield break;

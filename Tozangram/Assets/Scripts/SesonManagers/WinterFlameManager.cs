@@ -13,7 +13,7 @@ public class WinterFlameManager : MonoBehaviour {
 
     private void Awake()
     {
-        col2D = GameObject.FindWithTag("Player").GetComponent<CircleCollider2D>();
+        col2D = GameObject.FindWithTag("Player").GetComponent<CapsuleCollider2D>();
         pc = GameObject.FindWithTag("Player").GetComponent<PlayerControl>();
     }
 

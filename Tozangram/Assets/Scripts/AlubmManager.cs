@@ -60,6 +60,8 @@ public class AlubmManager : MonoBehaviour
             RawImage target = Instantiate(targetImage, content).GetComponent<RawImage>();
             target.texture = tex;
             target.GetComponent<PhotoSpot>().spot = (SPOT)Enum.Parse(typeof(SPOT), path[1]);
+            target.GetComponent<PhotoSpot>().albumPos = new Vector2(float.Parse(path[2]), float.Parse(path[3]));
+
             target.name = item;
 
             target.GetComponent<RectTransform>().localPosition = new Vector2(int.Parse(pos[1]) * 10 + 1200, int.Parse(pos[2]) * 10 - 750);
@@ -74,11 +76,11 @@ public class AlubmManager : MonoBehaviour
 
         if (hit.collider.GetComponent<PhotoSpot>().spot == SPOT.GOOD)
         {
-            string[] pos = hit.collider.name.Split('_', '.');
+            Vector2 pos = hit.collider.GetComponent<PhotoSpot>().albumPos;
 
-            player.position = new Vector2(int.Parse(pos[1]), int.Parse(pos[2]));
+            player.position = pos;
 
-            Debug.Log(pos[1] + ":" + pos[2]);
+            Debug.Log(pos.x + ":" + pos.y);
 
         }
     }

@@ -78,10 +78,27 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (!SceneManager.GetSceneByName("Album").isLoaded)
+            {
+                stm.OpenScene("Album");
+                ChangeState(STATE.POSE);
+            }
+            else
+            {
+                stm.CloseScene("Album");
+                if (!SceneManager.GetSceneByName("Pose").isLoaded)
+                {
+                    ChangeState(STATE.GAME);
+                }
+            }
+        }
+
         // ポーズ画面
         if (Input.GetKeyDown(KeyCode.O))
         {
-            if (SceneManager.GetSceneByName("Pose").isLoaded)
+            if (state == STATE.POSE)
             {
                 if (SceneManager.GetSceneByName("Option").isLoaded)
                 {
@@ -90,6 +107,10 @@ public class GameManager : MonoBehaviour
                 else if (SceneManager.GetSceneByName("Album").isLoaded)
                 {
                     stm.CloseScene("Album");
+                    if (!SceneManager.GetSceneByName("Pose").isLoaded)
+                    {
+                        ChangeState(STATE.GAME);
+                    }
                 }
                 else
                 {
@@ -105,10 +126,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ChangeFlame()
     {
-        state = STATE.TRANS;
         SEASON current = season;
 
-        Time.timeScale = 0f;
+        ChangeState(STATE.POSE);
+
         flameList[0].SetActive(true);
 
         int time = 60;
@@ -147,8 +168,7 @@ public class GameManager : MonoBehaviour
             Fetch(current, season);
         }
 
-        state = STATE.GAME;
-        Time.timeScale = 1f;
+        ChangeState(STATE.GAME);
         flameList[0].SetActive(false);
         yield break;
     }
@@ -183,6 +203,8 @@ public class GameManager : MonoBehaviour
             case SEASON.WINTER:
                 winter.Disabled();
                 break;
+            default:
+                break;
         }
 
         switch (after)
@@ -199,6 +221,8 @@ public class GameManager : MonoBehaviour
                 break;
             case SEASON.WINTER:
                 winter.Enabled();
+                break;
+            default:
                 break;
         }
     }
@@ -221,6 +245,29 @@ public class GameManager : MonoBehaviour
         string pos = PlayerPrefs.GetString("reStart");
         string[] posArray = pos.Split('_');
 
-        player.position = new Vector2(int.Parse(posArray[0]), int.Parse(posArray[1]));
+        player.position = new Vector2(float.Parse(posArray[0]), float.Parse(posArray[1]));
+    }
+
+    /// <summary>
+    /// STATEの変更に伴う処理
+    /// </summary>
+    /// <param name="st">変更先STATE</param>
+    public void ChangeState(STATE st)
+    {
+        state = st;
+        switch (st)
+        {
+            case STATE.GAME:
+                Time.timeScale = 1f;
+                break;
+            case STATE.POSE:
+                Time.timeScale = 0f;
+                break;
+            case STATE.TRANS:
+                Time.timeScale = 0f;
+                break;
+            default:
+                break;
+        }
     }
 }
