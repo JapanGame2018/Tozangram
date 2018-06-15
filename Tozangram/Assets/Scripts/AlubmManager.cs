@@ -22,7 +22,7 @@ public class AlubmManager : MonoBehaviour
         content = GameObject.Find("Content").transform;
         snap = GameObject.Find("GameManager").GetComponent<SnapManager>();
         player = GameObject.Find("Player").transform;
-        ShowSSImage();
+        ShowSSImage(GameManager.instance.stage);
         EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -45,26 +45,32 @@ public class AlubmManager : MonoBehaviour
         }
     }
 
-    public void ShowSSImage()
+    public void ShowSSImage(int stageIndex = 1)
     {
         foreach (string item in snap.pathList)
         {
             string[] path = item.Split(',');
             string[] pos = path[0].Split('_', '.');
 
-            byte[] image = File.ReadAllBytes(path[0]);
+            if (pos[0] == "Assets/Resources/Album/Stage" + stageIndex + "/")
+            {
+                byte[] image = File.ReadAllBytes(path[0]);
 
-            Texture2D tex = new Texture2D(0, 0);
-            tex.LoadImage(image);
+                Texture2D tex = new Texture2D(0, 0);
+                tex.LoadImage(image);
 
-            RawImage target = Instantiate(targetImage, content).GetComponent<RawImage>();
-            target.texture = tex;
-            target.GetComponent<PhotoSpot>().spot = (SPOT)Enum.Parse(typeof(SPOT), path[1]);
-            target.GetComponent<PhotoSpot>().albumPos = new Vector2(float.Parse(path[2]), float.Parse(path[3]));
+                RawImage target = Instantiate(targetImage, content).GetComponent<RawImage>();
+                target.texture = tex;
 
-            target.name = item;
+                PhotoSpot ps = target.GetComponent<PhotoSpot>();
+                ps.spot = (SPOT)Enum.Parse(typeof(SPOT), path[1]);
+                ps.albumPos = new Vector2(float.Parse(path[2]), float.Parse(path[3]));
+                ps.stage = stageIndex;
 
-            target.GetComponent<RectTransform>().localPosition = new Vector2(int.Parse(pos[1]) * 10 + 1200, int.Parse(pos[2]) * 10 - 750);
+                target.name = item;
+
+                target.GetComponent<RectTransform>().localPosition = new Vector2(int.Parse(pos[1]) * 10 + 1200, int.Parse(pos[2]) * 10 - 750);
+            }
         }
     }
 
@@ -76,10 +82,12 @@ public class AlubmManager : MonoBehaviour
 
         if (hit.collider.GetComponent<PhotoSpot>().spot == SPOT.GOOD)
         {
-            Vector2 pos = hit.collider.GetComponent<PhotoSpot>().albumPos;
+            PhotoSpot ps = hit.collider.GetComponent<PhotoSpot>();
+            Vector2 pos = ps.albumPos;
 
             player.position = pos;
 
+            StartCoroutine( GameManager.instance.ChangeStage(ps.stage) );
             Debug.Log(pos.x + ":" + pos.y);
 
         }

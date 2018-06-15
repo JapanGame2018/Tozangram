@@ -51,7 +51,7 @@ public class SnapManager : MonoBehaviour
 
     private string GetScreenShotPath(Vector2 pos, int stageIndex = 0)
     {
-        string path = "Assets/Resources/Album/" + "_" + pos.x + "_" + pos.y + ".png";
+        string path = "Assets/Resources/Album/Stage" + gm.stage + "/_" + pos.x + "_" + pos.y + ".png";
 
         return path;
     }
@@ -84,7 +84,7 @@ public class SnapManager : MonoBehaviour
         // ファイルとして保存するならFile.WriteAllBytes()を実行
         File.WriteAllBytes(path, pngData);
 
-        string data = path + "," + spot + "," + reStartPos.x + "," + reStartPos.y;
+        string data = path + "," + spot + "," + reStartPos.x + "," + reStartPos.y + "," + gm.stage;
 
         if (!pathList.Contains(data))
         {
@@ -107,6 +107,7 @@ public class SnapManager : MonoBehaviour
         if(spot != SPOT.NORMAL)
         {
             PlayerPrefs.SetString("reStart", reStartPos.x + "_" + reStartPos.y);
+            PlayerPrefs.SetInt("STAGE", gm.stage);
         }
     }
 
