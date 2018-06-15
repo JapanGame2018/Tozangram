@@ -21,6 +21,11 @@ public enum SPOT
     NORMAL, PHOTO, GOOD, BEST
 }
 
+public enum LOAD
+{
+    OK, LOADING
+}
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] flameList;
@@ -28,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     public SEASON season = SEASON.NONE;
     public STATE state = STATE.GAME;
+    public LOAD load = LOAD.LOADING;
+    public int stage = 1;
 
     SpringFlameManager spring;
     SummerFlameManager summer;
@@ -35,6 +42,7 @@ public class GameManager : MonoBehaviour
     SceneTransitionManager stm;
     SnapManager snap;
 
+    public static GameManager instance;
 
     private void Awake()
     {
@@ -43,14 +51,32 @@ public class GameManager : MonoBehaviour
         winter = GetComponent<WinterFlameManager>();
         snap = GetComponent<SnapManager>();
         stm = GameObject.Find("SceneManager").GetComponent<SceneTransitionManager>();
+
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
     {
+        if (PlayerPrefs.HasKey("STAGE"))
+        {
+            //stage = PlayerPrefs.GetInt("STAGE");
+        }
+
+        StartCoroutine(ChangeStage(stage));
+
         state = STATE.GAME;
         Time.timeScale = 1.0f;
 
         ReStart();
+
+        load = LOAD.OK;
     }
 
     void Update()
@@ -269,5 +295,24 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public IEnumerator ChangeStage(int index = 1)
+    {
+        if (!SceneManager.GetSceneByName("Stage" + index).isLoaded)
+        {
+            load = LOAD.LOADING;
+            for (int i = 1; i <= 5; i++)
+            {
+                if (SceneManager.GetSceneByName("Stage" + i).isLoaded)
+                {
+                    SceneManager.UnloadSceneAsync("Stage" + i);
+                }
+            }
+
+            yield return SceneManager.LoadSceneAsync("Stage" + index, LoadSceneMode.Additive);
+            load = LOAD.OK;
+        }
+        yield break;
     }
 }

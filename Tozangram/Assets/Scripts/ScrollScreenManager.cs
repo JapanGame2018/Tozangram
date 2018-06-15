@@ -34,7 +34,7 @@ public class ScrollScreenManager : MonoBehaviour
 
     private IEnumerator MoveCamera(RectTransform rectTransform)
     {
-        while(Vector3.Distance(m_camera.position, rectTransform.position) > 0)
+        while(Vector3.Distance(m_camera.position, rectTransform.position) > 10)
         {
             m_camera.position = Vector3.Lerp(m_camera.position, new Vector3(rectTransform.position.x, rectTransform.position.y, -10f), scrollSpeed);
             yield return null;
