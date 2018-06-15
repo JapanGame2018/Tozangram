@@ -24,7 +24,7 @@ public class PlayerControl : MonoBehaviour
     public bool isTouched;      // 地面と接触しているか
     public bool crimbable;      // 壁登れるか
 
-    [SerializeField] AnimationSprite[] motions;
+    [SerializeField] private AnimationSprite[] motions;
 
     private void Awake()
     {
@@ -43,12 +43,21 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-        // キー入力を取得
         if (gm.state == STATE.GAME)
         {
+            // キー入力を取得
             GetKey();
 
             //anim.SetFloat("Fall", rb.velocity.y);
+        }
+
+        if (crimbable)
+        {
+            sr.sprite = motions[(int)gm.season].crimb;
+        }
+        else
+        {
+            sr.sprite = motions[(int)gm.season].idol;
         }
     }
 
@@ -75,10 +84,6 @@ public class PlayerControl : MonoBehaviour
             Move(Input.GetAxisRaw("Horizontal"));
             
         }
-        else
-        {
-            anim.Play("a");
-        }
 
         // シフトが押されている間、ダッシュ状態
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -94,6 +99,11 @@ public class PlayerControl : MonoBehaviour
         if (crimbable && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)))
         {
             Crimb(Input.GetAxisRaw("Vertical"));
+        }
+
+        if (!Input.anyKey)
+        {
+            anim.Play("a");
         }
     }
 
@@ -156,7 +166,6 @@ public class PlayerControl : MonoBehaviour
     /// <param name="value">左右の矢印キーからの入力値</param>
     private void Move(float value)
     {
-        AnimeWalk();
 
         float moveValue = speed;
 
@@ -164,6 +173,11 @@ public class PlayerControl : MonoBehaviour
         if (sprint)
         {
             moveValue *= sprintRate;
+            AnimeRun();
+        }
+        else
+        {
+            AnimeWalk();
         }
 
         // 左右に入力
@@ -187,6 +201,7 @@ public class PlayerControl : MonoBehaviour
     private void Crimb(float value)
     {
         tf.Translate(0, value * 0.1f, 0);
+        AnimeCrimb();
     }
 
     public void ActiveGravity(bool active)
@@ -212,6 +227,11 @@ public class PlayerControl : MonoBehaviour
         anim.Play("Walk");
     }
 
+    private void AnimeRun()
+    {
+        anim.Play("Run");
+    }
+
     private void AnimeJump()
     {
 
@@ -221,16 +241,18 @@ public class PlayerControl : MonoBehaviour
     {
 
     }
+
+    private void AnimeCrimb()
+    {
+        anim.Play("Crimb");
+    }
 }
 
 
 [System.Serializable]
 public class AnimationSprite
 {
-    public Sprite[] idol;
-    public AnimationClip walk;
-    public AnimationClip run;
-    public Sprite[] jump;
-    public Sprite[] fall;
-    
+    public Sprite idol;
+    public Sprite fall;
+    public Sprite crimb;
 }
