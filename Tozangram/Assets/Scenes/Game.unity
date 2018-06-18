@@ -2580,11 +2580,21 @@ MonoBehaviour:
   isTouched: 0
   crimbable: 0
   motions:
-  - idol: []
-    walk: {fileID: 7400000, guid: 36790641c1535684cbb9a8fceacd66a8, type: 2}
-    run: {fileID: 0}
-    jump: []
-    fall: []
+  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
+    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
+    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
+  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
+    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
+    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
+  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
+    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
+    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
+  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
+    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
+    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
+  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
+    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
+    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
 --- !u!114 &922415887
 MonoBehaviour:
   m_ObjectHideFlags: 0

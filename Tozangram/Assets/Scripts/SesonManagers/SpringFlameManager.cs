@@ -8,11 +8,6 @@ public class SpringFlameManager : MonoBehaviour
     [SerializeField] private Sprite close;
     [SerializeField] private Sprite open;
 
-    private void Start()
-    {
-        flowers = GameObject.FindGameObjectsWithTag("Flower");
-    }
-
     public void Disabled()
     {
         foreach (var item in flowers)
@@ -25,6 +20,7 @@ public class SpringFlameManager : MonoBehaviour
 
     public void Enabled()
     {
+        flowers = GameObject.FindGameObjectsWithTag("Flower");
         foreach (var item in flowers)
         {
             item.GetComponent<SpriteRenderer>().sprite = open;

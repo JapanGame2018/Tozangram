@@ -14,15 +14,17 @@ public class AlubmManager : MonoBehaviour
 
     [SerializeField] private GameObject targetImage;
     private Transform player;
+    [SerializeField] private Transform contentPre;
     private Transform content;
     SnapManager snap;
+    int stage;
 
     void Start()
     {
-        content = GameObject.Find("Content").transform;
         snap = GameObject.Find("GameManager").GetComponent<SnapManager>();
         player = GameObject.Find("Player").transform;
-        ShowSSImage(GameManager.instance.stage);
+        stage = GameManager.instance.stage;
+        ShowSSImage(stage);
         EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -43,10 +45,16 @@ public class AlubmManager : MonoBehaviour
         {
             MoveAlbum(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+        {
+            ChangeAlubum();
+        }
     }
 
     public void ShowSSImage(int stageIndex = 1)
     {
+        content = Instantiate(contentPre, GameObject.Find("Viewport").transform);
         foreach (string item in snap.pathList)
         {
             string[] path = item.Split(',');
@@ -96,5 +104,31 @@ public class AlubmManager : MonoBehaviour
     private void MoveAlbum(float value_x, float value_y)
     {
         content.Translate(value_x * cursorSpeed , value_y * cursorSpeed, 0);
+    }
+
+    private void ChangeAlubum()
+    {
+        Destroy(content.gameObject);
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            stage--;
+            if (stage < 1)
+            {
+                stage = 5;
+            }
+
+            ShowSSImage(stage);
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightControl))
+        {
+            stage++;
+            if (stage > 5)
+            {
+                stage = 1;
+            }
+
+            ShowSSImage(stage);
+        }
     }
 }
