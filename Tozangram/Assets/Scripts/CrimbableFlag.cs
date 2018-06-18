@@ -26,6 +26,7 @@ public class CrimbableFlag : MonoBehaviour
         if (collision.gameObject.CompareTag("Crimbable"))
         {
             StopCoroutine("CheckCrimb");
+            pc.crimbStay = false;
             pc.crimbable = false;
             pc.ActiveGravity(true);
         }
@@ -36,16 +37,21 @@ public class CrimbableFlag : MonoBehaviour
         pc.rb.velocity = new Vector2(0, 0);
         if (pc.gm.season != SEASON.SUMMER)
         {
+            pc.crimbStay = true;
+
+            pc.AnimeCrimbStay();
             pc.ActiveGravity(false);
 
             yield return new WaitForSeconds(1f);
 
+            pc.crimbStay = false;
             pc.crimbable = false;
             pc.ActiveGravity(true);
             yield break;
         }
         else
         {
+            pc.AnimeCrimbStay();
             while (true)
             {
                 if (pc.rb.IsTouching(pc.filter2d))

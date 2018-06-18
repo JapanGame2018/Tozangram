@@ -311,6 +311,7 @@ public class GameManager : MonoBehaviour
             }
 
             yield return SceneManager.LoadSceneAsync("Stage" + index, LoadSceneMode.Additive);
+            Resources.UnloadUnusedAssets();
             load = LOAD.OK;
         }
         yield break;
