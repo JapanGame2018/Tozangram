@@ -14,6 +14,7 @@ public class SnapManager : MonoBehaviour
     GameObject canvas;
     GameObject targetImage;
     GameManager gm;
+    AudioManager am;
     string screenShotPath;
     public Vector2 snapPos;
     public Vector2 reStartPos;
@@ -26,6 +27,7 @@ public class SnapManager : MonoBehaviour
         canvas = GameObject.Find("Canvas");
         targetImage = GameObject.Find("RawImage");
         gm = GetComponent<GameManager>();
+        am = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
         try
         {
@@ -103,7 +105,8 @@ public class SnapManager : MonoBehaviour
     {
         screenShotPath = GetScreenShotPath(snapPos);
         StartCoroutine(CreateScreenShot(screenShotPath));
-
+        am.PlaySE(UnityEngine.Random.Range(5, 9));
+        
         if(spot != SPOT.NORMAL)
         {
             PlayerPrefs.SetString("reStart", reStartPos.x + "_" + reStartPos.y);
