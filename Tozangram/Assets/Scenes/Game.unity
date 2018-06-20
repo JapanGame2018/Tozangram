@@ -2446,6 +2446,7 @@ GameObject:
   - component: {fileID: 922415887}
   - component: {fileID: 922415888}
   - component: {fileID: 922415889}
+  - component: {fileID: 922415890}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2579,22 +2580,7 @@ MonoBehaviour:
   downForce: 50
   isTouched: 0
   crimbable: 0
-  motions:
-  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
-    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
-    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
-  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
-    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
-    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
-  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
-    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
-    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
-  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
-    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
-    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
-  - idol: {fileID: 21300000, guid: a26102f879d7a5d4e991db414a70bf5e, type: 3}
-    fall: {fileID: 21300000, guid: 66069429e97fd9d419aa6d169ecd6b21, type: 3}
-    crimb: {fileID: 21300000, guid: 5683d14f0217b5941833007782f087d4, type: 3}
+  crimbStay: 0
 --- !u!114 &922415887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2635,6 +2621,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &922415890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 922415881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b760ebeed41e63b47ab838003daaecbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterValue: 10
+  movingValue: 20
 --- !u!1001 &931393712
 Prefab:
   m_ObjectHideFlags: 0
@@ -2802,7 +2801,7 @@ MonoBehaviour:
   season: 0
   state: 0
   load: 1
-  stage: 1
+  stage: 3
 --- !u!114 &950241300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8100,7 +8099,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
   audioClip:
-  - {fileID: 8300000, guid: af2ca5569671a459b90f25803b7c7b63, type: 3}
+  - {fileID: 8300000, guid: 2984bd42ae9285343aae1e1c68bc57dc, type: 3}
+  - {fileID: 8300000, guid: 112dc47c51872ec44996a006ee77ffa6, type: 3}
+  - {fileID: 8300000, guid: 7f9dc600cb966bb45a00756ed4f9376f, type: 3}
+  - {fileID: 8300000, guid: 0d6b0f529c87844468f603fca586d52c, type: 3}
+  - {fileID: 8300000, guid: 772b483c3d47cf24395d65466f333133, type: 3}
+  - {fileID: 8300000, guid: ca7a05bfe241793458ec3477351ae339, type: 3}
+  - {fileID: 8300000, guid: f70db04122f5ae74ca8b0b8034a2e1e8, type: 3}
+  - {fileID: 8300000, guid: 65a86d5a6e3de7a428e2b28a78470234, type: 3}
+  - {fileID: 8300000, guid: 5c5cb68f82668844e9ca75dbeb1dccf0, type: 3}
+  - {fileID: 8300000, guid: 0f796900a6c363f4794f2ff8284abc8e, type: 3}
+  - {fileID: 8300000, guid: 6ed9ae9752bb4d54da436dce30a152a1, type: 3}
 --- !u!82 &1686441693
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8110,7 +8119,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3cdc6258efb344abbbcae0f01dc9f2ba, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

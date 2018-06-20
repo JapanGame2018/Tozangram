@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour
     SpriteRenderer sr;
     SceneTransitionManager stm;
     Animator anim;
+    AudioManager am;
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public GameManager gm;
     [SerializeField] public ContactFilter2D filter2d;
@@ -32,11 +33,12 @@ public class PlayerControl : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tf = transform;
         anim = GetComponent<Animator>();
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        am = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     void Start()
     {
+        gm = GameManager.instance;
         gravityScale = rb.gravityScale;
     }
 
@@ -258,5 +260,10 @@ public class PlayerControl : MonoBehaviour
     public void AnimeCrimbStay()
     {
         anim.Play(gm.season + "_CrimbStay");
+    }
+
+    private void PlaySE(int index)
+    {
+        am.PlaySE(index);
     }
 }

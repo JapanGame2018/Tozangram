@@ -93,6 +93,8 @@ public class AlubmManager : MonoBehaviour
             PhotoSpot ps = hit.collider.GetComponent<PhotoSpot>();
             Vector2 pos = ps.albumPos;
 
+            GameManager.instance.stage = ps.stage;
+
             player.position = pos;
 
             StartCoroutine( GameManager.instance.ChangeStage(ps.stage) );
