@@ -7,6 +7,9 @@ TagManager:
   - target
   - Flower
   - Crimbable
+  - Water
+  - Moving
+  - Hole
   layers:
   - Default
   - TransparentFX

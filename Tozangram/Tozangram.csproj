@@ -293,6 +293,7 @@
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\CrimbableFlag.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GimmicManager.cs" />
     <Compile Include="Assets\Scripts\OptionValueManager.cs" />
     <Compile Include="Assets\Scripts\PhotoSpot.cs" />
     <Compile Include="Assets\Scripts\PlayerControl.cs" />

@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("STAGE"))
         {
-            //stage = PlayerPrefs.GetInt("STAGE");
+            stage = PlayerPrefs.GetInt("STAGE");
         }
 
         StartCoroutine(ChangeStage(stage));
