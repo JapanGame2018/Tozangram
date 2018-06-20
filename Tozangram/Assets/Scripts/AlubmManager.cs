@@ -100,6 +100,7 @@ public class AlubmManager : MonoBehaviour
             StartCoroutine( GameManager.instance.ChangeStage(ps.stage) );
             Debug.Log(pos.x + ":" + pos.y);
 
+
         }
     }
 

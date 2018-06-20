@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource audioSource;
+    [HideInInspector] public AudioSource audioSource;
     [SerializeField] AudioClip[] audioClip;
 
     private void Awake()
