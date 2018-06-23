@@ -5,22 +5,33 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System.Text;
 
-/// <summary>季節の一覧</summary>
+/// <summary>
+/// 季節の一覧
+/// ///</summary>
 public enum SEASON
 {
     NONE, SPRING, SUMMER, AUTUMN, WINTER
 }
 
+/// <summary>
+/// ゲームの状態
+/// </summary>
 public enum STATE
 {
     GAME, POSE, TRANS
 }
 
+/// <summary>
+/// フォトスポットの種類
+/// </summary>
 public enum SPOT
 {
     NORMAL, PHOTO, GOOD, BEST
 }
 
+/// <summary>
+/// ローディング状態
+/// </summary>
 public enum LOAD
 {
     OK, LOADING
@@ -35,6 +46,7 @@ public class GameManager : MonoBehaviour
     public STATE state = STATE.GAME;
     public LOAD load = LOAD.LOADING;
     public int stage = 1;
+    [SerializeField] private int flameLevel = 1;
 
     SpringFlameManager spring;
     SummerFlameManager summer;
@@ -44,6 +56,27 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public int FlameLevel
+    {
+        get
+        {
+            return flameLevel;
+        }
+
+        set
+        {
+            if (value < (int)SEASON.NONE)
+            {
+                value = (int)SEASON.NONE;
+            }
+            else if (value > (int)SEASON.WINTER)
+            {
+                value = (int)SEASON.WINTER;
+            }
+            flameLevel = value;
+        }
+    }
+
     private void Awake()
     {
         spring = GetComponent<SpringFlameManager>();
@@ -52,7 +85,13 @@ public class GameManager : MonoBehaviour
         snap = GetComponent<SnapManager>();
         stm = GameObject.Find("SceneManager").GetComponent<SceneTransitionManager>();
 
-        if(instance == null)
+        Instance();
+        CheckKey();
+    }
+
+    private void Instance()
+    {
+        if (instance == null)
         {
             instance = this;
         }
@@ -62,12 +101,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void CheckKey()
     {
         if (PlayerPrefs.HasKey("STAGE"))
         {
             stage = PlayerPrefs.GetInt("STAGE");
         }
+
+        if (PlayerPrefs.HasKey("FLAME"))
+        {
+            FlameLevel = PlayerPrefs.GetInt("FLAME");
+        }
+    }
+
+    private void Start()
+    {
 
         StartCoroutine(ChangeStage(stage));
 
@@ -102,9 +150,10 @@ public class GameManager : MonoBehaviour
             {
                 snap.ClickShootButton();
             }
+
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z) && state != STATE.TRANS)
         {
             if (!SceneManager.GetSceneByName("Album").isLoaded)
             {
@@ -154,7 +203,7 @@ public class GameManager : MonoBehaviour
     {
         SEASON current = season;
 
-        ChangeState(STATE.POSE);
+        ChangeState(STATE.TRANS);
 
         flameList[0].SetActive(true);
 
@@ -168,7 +217,7 @@ public class GameManager : MonoBehaviour
                 season--;
                 if (season < SEASON.NONE)
                 {
-                    season = SEASON.WINTER;
+                    season = (SEASON)FlameLevel;
                 }
 
                 SelectFlame(season);
@@ -178,7 +227,7 @@ public class GameManager : MonoBehaviour
             {
                 i = time;
                 season++;
-                if (season > SEASON.WINTER)
+                if (season > (SEASON)FlameLevel)
                 {
                     season = SEASON.NONE;
                 }
@@ -265,7 +314,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // リスタート地点へ移動
+    /// <summary>
+    /// リスタート地点へ移動
+    /// </summary>
     public void ReStart()
     {
         string pos = PlayerPrefs.GetString("reStart");
@@ -311,8 +362,29 @@ public class GameManager : MonoBehaviour
             }
 
             yield return SceneManager.LoadSceneAsync("Stage" + index, LoadSceneMode.Additive);
+            Fetch(SEASON.NONE, season);
             Resources.UnloadUnusedAssets();
             load = LOAD.OK;
+        }
+        yield break;
+    }
+
+    public IEnumerator StageClear()
+    {
+        if (FlameLevel <= stage)
+        {
+            state = STATE.TRANS;
+
+            FlameLevel++;
+            PlayerPrefs.SetInt("FLAME", FlameLevel);
+
+            stm.CloseScene("Stage" + stage);
+            stage++;
+            stm.OpenScene("Stage" + stage);
+
+            player.position = new Vector2(-73f, 46f);
+
+            state = STATE.GAME;
         }
         yield break;
     }

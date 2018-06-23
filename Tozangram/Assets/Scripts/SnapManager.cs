@@ -111,6 +111,11 @@ public class SnapManager : MonoBehaviour
         {
             PlayerPrefs.SetString("reStart", reStartPos.x + "_" + reStartPos.y);
             PlayerPrefs.SetInt("STAGE", gm.stage);
+
+            if(spot == SPOT.BEST)
+            {
+                StartCoroutine(gm.StageClear());
+            }
         }
     }
 

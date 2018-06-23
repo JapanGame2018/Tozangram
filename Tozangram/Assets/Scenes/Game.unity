@@ -2802,6 +2802,7 @@ MonoBehaviour:
   state: 0
   load: 1
   stage: 1
+  flameLevel: 1
 --- !u!114 &950241300
 MonoBehaviour:
   m_ObjectHideFlags: 0
