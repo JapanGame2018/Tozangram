@@ -81,7 +81,6 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
         {
             Move(Input.GetAxisRaw("Horizontal"));
-
         }
 
         // シフトが押されている間、ダッシュ状態
@@ -100,7 +99,7 @@ public class PlayerControl : MonoBehaviour
             Crimb(Input.GetAxisRaw("Vertical"));
         }
 
-        if (rb.velocity.x == 0 && rb.velocity.y == 0 && !crimbable && !crimbStay)
+        if (!Input.anyKey && rb.velocity.x == 0 && rb.velocity.y == 0 && !crimbable && !crimbStay)
         {
             AnimeIdol();
         }

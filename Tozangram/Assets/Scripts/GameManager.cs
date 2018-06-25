@@ -382,7 +382,9 @@ public class GameManager : MonoBehaviour
             stage++;
             stm.OpenScene("Stage" + stage);
 
-            player.position = new Vector2(-73f, 46f);
+            PlayerPrefs.SetString("reStart", "-73_46");
+            PlayerPrefs.SetInt("STAGE", stage);
+            ReStart();
 
             state = STATE.GAME;
         }
